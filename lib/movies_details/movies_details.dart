@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../bloc/cubit.dart';
 import '../bloc/state.dart';
 
@@ -15,25 +14,31 @@ class MoviesDetails extends StatefulWidget {
 
 class _MoviesDetailsState extends State<MoviesDetails> {
   @override
+  void initState() {
+    super.initState();
+    Future.microtask(() => context.read<HomeCubit>().getMoviesData(widget.movieId));
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => HomeCubit()..getMoviesData(widget.movieId),
-      child: Scaffold(
-        backgroundColor: Colors.black,
-        body: BlocBuilder<HomeCubit, HomeStates>(
-          builder: (context, state) {
-            if (state is GetMoviesDataLoadingState) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (state is GetMoviesDataSuccessState) {
-              var movie = HomeCubit.get(context).movieResponse!;
-              return buildMovieDetails(context, movie);
-            } else {
-              return const Center(
-                child: Text("Error loading movie", style: TextStyle(color: Colors.white)),
-              );
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: BlocBuilder<HomeCubit, HomeStates>(
+        builder: (context, state) {
+          if (state is GetMoviesDataLoadingState) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is GetMoviesDataSuccessState) {
+            var movie = HomeCubit.get(context).movieResponse;
+            if (movie == null) {
+              return const Center(child: Text("Movie data is null", style: TextStyle(color: Colors.white)));
             }
-          },
-        ),
+            return buildMovieDetails(context, movie);
+          } else {
+            return const Center(
+              child: Text("Error loading movie", style: TextStyle(color: Colors.white)),
+            );
+          }
+        },
       ),
     );
   }
@@ -47,7 +52,9 @@ class _MoviesDetailsState extends State<MoviesDetails> {
             alignment: Alignment.center,
             children: [
               Image.network(
-                "https://image.tmdb.org/t/p/w500${movie.backdropPath ?? ""}",
+                movie.backdropPath != null
+                    ? "https://image.tmdb.org/t/p/w500${movie.backdropPath}"
+                    : "https://via.placeholder.com/500x750",
                 fit: BoxFit.fill,
                 width: double.infinity,
                 height: 500,

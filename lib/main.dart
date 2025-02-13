@@ -1,9 +1,20 @@
 import 'package:flutter/material.dart';
-import 'movies_details/movies_details.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'bloc/cubit.dart';
+import 'movies_details/test.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => HomeCubit()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -12,10 +23,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-        initialRoute: MoviesDetails.routeName,
-        routes: {
-        MoviesDetails.routeName: (context) =>  MoviesDetails(movieId: 711),
-        }
+      home: SourcesSection(),
     );
   }
 }
