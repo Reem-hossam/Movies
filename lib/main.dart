@@ -8,12 +8,13 @@ void main() {
   runApp(
     MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => HomeCubit()),
+        BlocProvider(create: (context) => HomeCubit()..getMoviesList()),
       ],
       child: const MyApp(),
     ),
   );
 }
+
 
 
 class MyApp extends StatelessWidget {

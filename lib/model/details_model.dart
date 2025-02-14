@@ -25,6 +25,8 @@ class MoviesResponse {
   bool? video;
   double? voteAverage;
   int? voteCount;
+  List<Cast>? cast;
+  List<String>? screenshots;
 
   MoviesResponse({
     this.adult,
@@ -53,6 +55,8 @@ class MoviesResponse {
     this.video,
     this.voteAverage,
     this.voteCount,
+    this.cast,
+    this.screenshots,
   });
 
   MoviesResponse.fromJson(Map<String, dynamic> json) {
@@ -62,49 +66,75 @@ class MoviesResponse {
         ? BelongsToCollection.fromJson(json['belongs_to_collection'])
         : null;
     budget = json['budget'];
-    if (json['genres'] != null) {
-      genres = <Genres>[];
-      json['genres'].forEach((v) {
-        genres!.add(Genres.fromJson(v));
-      });
-    }
+    genres = (json['genres'] as List?)?.map((e) => Genres.fromJson(e)).toList();
     homepage = json['homepage'];
     id = json['id'];
     imdbId = json['imdb_id'];
-    originCountry =
-        (json['origin_country'] as List<dynamic>?)?.map((e) => e.toString()).toList() ?? [];
+    originCountry = (json['origin_country'] as List<dynamic>?)?.map((e) => e.toString()).toList();
     originalLanguage = json['original_language'];
     originalTitle = json['original_title'];
     overview = json['overview'];
     popularity = json['popularity'];
     posterPath = json['poster_path'];
-    if (json['production_companies'] != null) {
-      productionCompanies = <ProductionCompanies>[];
-      json['production_companies'].forEach((v) {
-        productionCompanies!.add(ProductionCompanies.fromJson(v));
-      });
-    }
-    if (json['production_countries'] != null) {
-      productionCountries = <ProductionCountries>[];
-      json['production_countries'].forEach((v) {
-        productionCountries!.add(ProductionCountries.fromJson(v));
-      });
-    }
+    productionCompanies = (json['production_companies'] as List?)?.map((e) => ProductionCompanies.fromJson(e)).toList();
+    productionCountries = (json['production_countries'] as List?)?.map((e) => ProductionCountries.fromJson(e)).toList();
     releaseDate = json['release_date'];
     revenue = json['revenue'];
     runtime = json['runtime'];
-    if (json['spoken_languages'] != null) {
-      spokenLanguages = <SpokenLanguages>[];
-      json['spoken_languages'].forEach((v) {
-        spokenLanguages!.add(SpokenLanguages.fromJson(v));
-      });
-    }
+    spokenLanguages = (json['spoken_languages'] as List?)?.map((e) => SpokenLanguages.fromJson(e)).toList();
     status = json['status'];
     tagline = json['tagline'];
     title = json['title'];
     video = json['video'];
     voteAverage = json['vote_average'];
     voteCount = json['vote_count'];
+
+    if (json['credits'] != null && json['credits']['cast'] != null) {
+      cast = (json['credits']['cast'] as List?)?.map((e) => Cast.fromJson(e)).toList();
+    }
+
+    // التحقق من الصور داخل images
+    if (json.containsKey('images')) {
+      var imagesData = json['images'];
+      print("Images Section Data: $imagesData"); // ✅ طباعة للتأكد من البيانات
+
+      if (imagesData.containsKey('backdrops') && (imagesData['backdrops'] as List).isNotEmpty) {
+        screenshots = (imagesData['backdrops'] as List)
+            .map((e) => "https://image.tmdb.org/t/p/w500${e['file_path']}")
+            .toList();
+        print("Extracted Screenshots from backdrops: $screenshots");
+      } else if (imagesData.containsKey('posters') && (imagesData['posters'] as List).isNotEmpty) {
+        screenshots = (imagesData['posters'] as List)
+            .map((e) => "https://image.tmdb.org/t/p/w500${e['file_path']}")
+            .toList();
+        print("Extracted Screenshots from posters: $screenshots");
+      } else if (imagesData.containsKey('stills') && (imagesData['stills'] as List).isNotEmpty) {
+        screenshots = (imagesData['stills'] as List)
+            .map((e) => "https://image.tmdb.org/t/p/w500${e['file_path']}")
+            .toList();
+        print("Extracted Screenshots from stills: $screenshots");
+      } else {
+        print("No screenshots available in images['backdrops'], images['posters'], or images['stills']!");
+        screenshots = [];
+      }
+    }
+  }
+}
+
+
+class Cast {
+  int? id;
+  String? name;
+  String? profilePath;
+  String? character;
+
+  Cast({this.id, this.name, this.profilePath, this.character});
+
+  Cast.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    profilePath = json['profile_path'];
+    character = json['character'];
   }
 }
 
