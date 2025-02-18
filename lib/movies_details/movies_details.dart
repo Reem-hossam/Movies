@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movies_app/movies_details/video.dart';
 import '../bloc/cubit.dart';
 import '../bloc/state.dart';
 import '../model/details_model.dart';
-import '../model/similar_model.dart';
+import '../model/screenshot_model.dart';
+import '../model/similar_model.dart' ;
+import '../model/video_model.dart' as video;
+
 
 class MoviesDetails extends StatefulWidget {
   final int movieId;
@@ -30,13 +34,17 @@ class _MoviesDetailsState extends State<MoviesDetails> {
           if (state is GetMoviesDataLoadingState) {
             return const Center(child: CircularProgressIndicator());
           } else if (state is GetMoviesDataSuccessState) {
-            var movie = HomeCubit.get(context).movieResponse;
-            var similarMovies = HomeCubit.get(context).similarMovies;
+            var cubit = HomeCubit.get(context);
+            var movie = cubit.movieResponse;
+            var similarMovies = cubit.similarMovies ?? <Results>[];
+            var screenshots = cubit.movieScreenshots ?? <Backdrops>[];
+
             if (movie == null) {
               return const Center(
-                  child: Text("Movie data is null", style: TextStyle(color: Colors.white)));
+                child: Text("Movie data is null", style: TextStyle(color: Colors.white)),
+              );
             }
-            return buildMovieDetails(context, movie, similarMovies ?? []);
+            return buildMovieDetails(context, movie, similarMovies, screenshots);
           } else {
             return const Center(
               child: Text("Error loading movie", style: TextStyle(color: Colors.white)),
@@ -45,9 +53,10 @@ class _MoviesDetailsState extends State<MoviesDetails> {
         },
       ),
     );
+
   }
 
-  Widget buildMovieDetails(BuildContext context, dynamic movie, List<Results> similarMovies) {
+  Widget buildMovieDetails(BuildContext context, dynamic movie, List<Results> similarMovies, List<Backdrops> screenshots) {
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -83,34 +92,43 @@ class _MoviesDetailsState extends State<MoviesDetails> {
                 ),
               ),
               Positioned(
-                bottom: 20,
-                left: 0,
-                right: 0,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      movie.title ?? "Unknown Title",
-                      style: const TextStyle(
-                        fontSize: 24,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      textAlign: TextAlign.center,
+                top: 270,
+                left: MediaQuery.of(context).size.width / 2 - 30,
+                child: GestureDetector(
+                  onTap: () {
+                    String? trailerUrl = HomeCubit.get(context).movieVideoUrl;
+                    if (trailerUrl != null) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => YouTubePlayerScreen(videoUrl: trailerUrl),
+                        ),
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text("No trailer available")),
+                      );
+                    }
+                  },
+                  child: Container(
+                    width: 60,
+                    height: 60,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.yellow,
                     ),
-                    const SizedBox(height: 5),
-                    Text(
-                      movie.releaseDate?.split('-')[0] ?? "Unknown Year",
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+                    child: const Center(
+                      child: Icon(
+                        Icons.play_circle_outline,
+                        size: 50,
                         color: Colors.white,
                       ),
-                      textAlign: TextAlign.center,
                     ),
-                  ],
+                  ),
                 ),
               ),
+
+
             ],
           ),
           Padding(
@@ -130,7 +148,23 @@ class _MoviesDetailsState extends State<MoviesDetails> {
                   width: double.infinity,
                   margin: EdgeInsets.all(6),
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+
+                        String? trailerUrl = HomeCubit.get(context).movieVideoUrl;
+                        if (trailerUrl != null) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => YouTubePlayerScreen(videoUrl: trailerUrl),
+                            ),
+                          );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text("No trailer available")),
+                          );
+                        }
+
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red,
                       padding: EdgeInsets.symmetric(vertical: 12),
@@ -143,7 +177,7 @@ class _MoviesDetailsState extends State<MoviesDetails> {
                 ),
                 const SizedBox(height: 10),
                 buildSection("Screen Shots"),
-                buildScreenshots(movie.screenshots),
+                buildScreenshots(screenshots?? []),
                 buildSection("Similar"),
                 buildSimilarMovies(similarMovies ?? []),
                 buildSection("Summary"),
@@ -154,7 +188,7 @@ class _MoviesDetailsState extends State<MoviesDetails> {
                       fontSize: 16),
                 ),
                 buildSection("Cast"),
-                buildCastList(movie.cast),
+                buildCastList(movie.cast ?? []),
                 buildSection("Genres"),
                 Wrap(
                   spacing: 8.0,
@@ -167,7 +201,7 @@ class _MoviesDetailsState extends State<MoviesDetails> {
                         borderRadius: BorderRadius.circular(16),
                       ),
                       child: Text(
-                        genre.name, // Display individual genre name instead of joining all
+                        genre.name,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Colors.white,
@@ -259,34 +293,51 @@ class _MoviesDetailsState extends State<MoviesDetails> {
   }
 
 
-  Widget buildScreenshots(List<String>? screenshots) {
-    if (screenshots == null || screenshots.isEmpty) {
+  Widget buildScreenshots(List<Backdrops> screenshots) {
+    if (screenshots.isEmpty) {
       return Center(
-        child: Text("No Screenshots Available", style: TextStyle(color: Colors.white70)),
+        child: Text(
+          "No Screenshots Available",
+          style: TextStyle(color: Colors.white70, fontSize: 16, fontWeight: FontWeight.bold),
+        ),
       );
     }
-    return SizedBox(
-      height: 150,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: screenshots.length,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 5),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: Image.network(
-                screenshots[index],
-                width: 200,
-                height: 150,
-                fit: BoxFit.cover,
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        ListView.builder(
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          itemCount: screenshots.length.clamp(0, 3),
+          itemBuilder: (context, index) {
+            final backdrop = screenshots[index];
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.network(
+                  "https://image.tmdb.org/t/p/w500${backdrop.filePath}",
+                  width: double.infinity,
+                  height: 180,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Container(
+                      height: 180,
+                      color: Colors.grey[800],
+                      child: Center(child: Icon(Icons.broken_image, color: Colors.white70)),
+                    );
+                  },
+                ),
               ),
-            ),
-          );
-        },
-      ),
+            );
+          },
+        ),
+      ],
     );
   }
+
+
 
   Widget buildInfoContainer(IconData icon, String text) {
     return Container(

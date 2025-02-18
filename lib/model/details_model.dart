@@ -1,3 +1,5 @@
+import 'package:movies_app/model/video_model.dart';
+
 class MoviesResponse {
   bool? adult;
   String? backdropPath;
@@ -89,38 +91,33 @@ class MoviesResponse {
     voteAverage = json['vote_average'];
     voteCount = json['vote_count'];
 
+
     if (json['credits'] != null && json['credits']['cast'] != null) {
       cast = (json['credits']['cast'] as List?)?.map((e) => Cast.fromJson(e)).toList();
     }
 
-    // التحقق من الصور داخل images
+
     if (json.containsKey('images')) {
       var imagesData = json['images'];
-      print("Images Section Data: $imagesData"); // ✅ طباعة للتأكد من البيانات
 
-      if (imagesData.containsKey('backdrops') && (imagesData['backdrops'] as List).isNotEmpty) {
-        screenshots = (imagesData['backdrops'] as List)
-            .map((e) => "https://image.tmdb.org/t/p/w500${e['file_path']}")
-            .toList();
-        print("Extracted Screenshots from backdrops: $screenshots");
-      } else if (imagesData.containsKey('posters') && (imagesData['posters'] as List).isNotEmpty) {
-        screenshots = (imagesData['posters'] as List)
-            .map((e) => "https://image.tmdb.org/t/p/w500${e['file_path']}")
-            .toList();
-        print("Extracted Screenshots from posters: $screenshots");
-      } else if (imagesData.containsKey('stills') && (imagesData['stills'] as List).isNotEmpty) {
+      if (imagesData.containsKey('stills') && (imagesData['stills'] as List).isNotEmpty) {
         screenshots = (imagesData['stills'] as List)
             .map((e) => "https://image.tmdb.org/t/p/w500${e['file_path']}")
             .toList();
         print("Extracted Screenshots from stills: $screenshots");
+      } else if (imagesData.containsKey('backdrops') && (imagesData['backdrops'] as List).isNotEmpty) {
+        screenshots = (imagesData['backdrops'] as List)
+            .map((e) => "https://image.tmdb.org/t/p/w500${e['file_path']}")
+            .toList();
+        print("Extracted Screenshots from backdrops: $screenshots");
       } else {
-        print("No screenshots available in images['backdrops'], images['posters'], or images['stills']!");
+        print("No screenshots available in images['stills'] or images['backdrops']!");
         screenshots = [];
       }
     }
+
   }
 }
-
 
 class Cast {
   int? id;

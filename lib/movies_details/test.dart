@@ -6,6 +6,7 @@ import '../bloc/state.dart';
 import 'item.dart';
 
 class SourcesSection extends StatelessWidget {
+  static const String routeName = "SourcesSection";
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomeCubit, HomeStates>(
