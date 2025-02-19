@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/movies_details/video.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import '../bloc/cubit.dart';
 import '../bloc/state.dart';
 import '../model/details_model.dart';
@@ -19,10 +20,14 @@ class MoviesDetails extends StatefulWidget {
 }
 
 class _MoviesDetailsState extends State<MoviesDetails> {
+  bool isPlaying = false;
+  late YoutubePlayerController _youtubeController;
+
   @override
   void initState() {
     super.initState();
     Future.microtask(() => context.read<HomeCubit>().getMoviesData(widget.movieId));
+
   }
 
   @override
@@ -64,7 +69,13 @@ class _MoviesDetailsState extends State<MoviesDetails> {
           Stack(
             alignment: Alignment.center,
             children: [
-              Image.network(
+              isPlaying
+                  ? YoutubePlayer(
+                controller: _youtubeController,
+                showVideoProgressIndicator: true,
+
+              )
+                  : Image.network(
                 movie.backdropPath != null
                     ? "https://image.tmdb.org/t/p/w500${movie.backdropPath}"
                     : "https://via.placeholder.com/500x750",
@@ -72,38 +83,23 @@ class _MoviesDetailsState extends State<MoviesDetails> {
                 width: double.infinity,
                 height: 500,
               ),
-              Positioned(
-                top: 270,
-                left: MediaQuery.of(context).size.width / 2 - 30,
-                child: Container(
-                  width: 60,
-                  height: 60,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.yellow,
-                  ),
-                  child: const Center(
-                    child: Icon(
-                      Icons.play_circle_outline,
-                      size: 50,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                top: 270,
-                left: MediaQuery.of(context).size.width / 2 - 30,
-                child: GestureDetector(
+              if (!isPlaying)
+                GestureDetector(
                   onTap: () {
                     String? trailerUrl = HomeCubit.get(context).movieVideoUrl;
                     if (trailerUrl != null) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => YouTubePlayerScreen(videoUrl: trailerUrl),
-                        ),
-                      );
+                      String videoId = extractYouTubeVideoId(trailerUrl);
+
+                      setState(() {
+                        _youtubeController = YoutubePlayerController(
+                          initialVideoId: videoId,
+                          flags: const YoutubePlayerFlags(
+                            autoPlay: true,
+                            mute: false,
+                          ),
+                        );
+                        isPlaying = true;
+                      });
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text("No trailer available")),
@@ -126,9 +122,6 @@ class _MoviesDetailsState extends State<MoviesDetails> {
                     ),
                   ),
                 ),
-              ),
-
-
             ],
           ),
           Padding(
@@ -149,22 +142,26 @@ class _MoviesDetailsState extends State<MoviesDetails> {
                   margin: EdgeInsets.all(6),
                   child: ElevatedButton(
                     onPressed: () {
-
                         String? trailerUrl = HomeCubit.get(context).movieVideoUrl;
                         if (trailerUrl != null) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => YouTubePlayerScreen(videoUrl: trailerUrl),
-                            ),
-                          );
+                          String videoId = extractYouTubeVideoId(trailerUrl);
+
+                          setState(() {
+                            _youtubeController = YoutubePlayerController(
+                              initialVideoId: videoId,
+                              flags: const YoutubePlayerFlags(
+                                autoPlay: true,
+                                mute: false,
+                              ),
+                            );
+                            isPlaying = true;
+                          });
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text("No trailer available")),
                           );
                         }
-
-                    },
+                        },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red,
                       padding: EdgeInsets.symmetric(vertical: 12),
@@ -217,6 +214,50 @@ class _MoviesDetailsState extends State<MoviesDetails> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget buildScreenshots(List<Backdrops> screenshots) {
+    if (screenshots.isEmpty) {
+      return Center(
+        child: Text(
+          "No Screenshots Available",
+          style: TextStyle(color: Colors.white70, fontSize: 16, fontWeight: FontWeight.bold),
+        ),
+      );
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        ListView.builder(
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          itemCount: screenshots.length.clamp(0, 3),
+          itemBuilder: (context, index) {
+            final backdrop = screenshots[index];
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.network(
+                  "https://image.tmdb.org/t/p/w500${backdrop.filePath}",
+                  width: double.infinity,
+                  height: 180,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Container(
+                      height: 180,
+                      color: Colors.grey[800],
+                      child: Center(child: Icon(Icons.broken_image, color: Colors.white70)),
+                    );
+                  },
+                ),
+              ),
+            );
+          },
+        ),
+      ],
     );
   }
 
@@ -291,53 +332,6 @@ class _MoviesDetailsState extends State<MoviesDetails> {
       },
     );
   }
-
-
-  Widget buildScreenshots(List<Backdrops> screenshots) {
-    if (screenshots.isEmpty) {
-      return Center(
-        child: Text(
-          "No Screenshots Available",
-          style: TextStyle(color: Colors.white70, fontSize: 16, fontWeight: FontWeight.bold),
-        ),
-      );
-    }
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        ListView.builder(
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          itemCount: screenshots.length.clamp(0, 3),
-          itemBuilder: (context, index) {
-            final backdrop = screenshots[index];
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: Image.network(
-                  "https://image.tmdb.org/t/p/w500${backdrop.filePath}",
-                  width: double.infinity,
-                  height: 180,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Container(
-                      height: 180,
-                      color: Colors.grey[800],
-                      child: Center(child: Icon(Icons.broken_image, color: Colors.white70)),
-                    );
-                  },
-                ),
-              ),
-            );
-          },
-        ),
-      ],
-    );
-  }
-
-
 
   Widget buildInfoContainer(IconData icon, String text) {
     return Container(

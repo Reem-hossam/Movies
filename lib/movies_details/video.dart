@@ -48,6 +48,7 @@ class _YouTubePlayerScreenState extends State<YouTubePlayerScreen> {
       body: YoutubePlayer(
         controller: _controller,
         showVideoProgressIndicator: true,
+
       ),
     );
   }
