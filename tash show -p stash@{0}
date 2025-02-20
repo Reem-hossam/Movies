@@ -1,0 +1,12 @@
+[33m8560631[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m)[m HEAD@{0}: commit: all
+[33mb61c290[m HEAD@{1}: commit: حفظ التعديلات قبل استرجاع stash
+[33me6c08a2[m HEAD@{2}: reset: moving to HEAD
+[33me6c08a2[m HEAD@{3}: commit: all
+[33me9a804f[m HEAD@{4}: commit: all
+[33m5ab8507[m HEAD@{5}: commit: all
+[33mcf3b6f1[m HEAD@{6}: commit: all
+[33m308dacd[m[33m ([m[1;32mdevelper[m[33m)[m HEAD@{7}: checkout: moving from master to master
+[33m308dacd[m[33m ([m[1;32mdevelper[m[33m)[m HEAD@{8}: checkout: moving from develper to master
+[33m308dacd[m[33m ([m[1;32mdevelper[m[33m)[m HEAD@{9}: checkout: moving from master to develper
+[33m308dacd[m[33m ([m[1;32mdevelper[m[33m)[m HEAD@{10}: commit: all
+[33m913e290[m HEAD@{11}: clone: from https://github.com/Reem-hossam/Movies.git
