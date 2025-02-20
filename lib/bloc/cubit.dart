@@ -9,7 +9,6 @@ import '/bloc/state.dart';
 
 class HomeCubit extends Cubit<HomeStates> {
   MoviesResponse? movieResponse;
-  List<MoviesResponse>? moviesList;
   String? movieVideoUrl;
   List<Cast>? movieCast;
   List<Backdrops>? movieScreenshots;
@@ -29,25 +28,19 @@ class HomeCubit extends Cubit<HomeStates> {
 
       if (response.statusCode == 200) {
         var json = jsonDecode(response.body);
-        List<dynamic> moviesJson = json['results'];
-
-        // ✅ تحويل القائمة بشكل صحيح
+        List moviesJson = json['results'];
         List<MoviesResponse> movies =
         moviesJson.map((e) => MoviesResponse.fromJson(e)).toList();
-
-        moviesList = movies;  // ✅ تخزين القائمة في متغير جديد
-
         emit(GetMoviesListSuccessState(movies));
       } else {
-        print("Error: Failed to load movies list, Status Code: ${response.statusCode}");
+        print("Error: Failed to load movies list, Status Code: \${response.statusCode}");
         emit(GetMoviesDataErrorState());
       }
     } catch (e) {
-      print("Exception while loading movies list: $e");
+      print("Exception while loading movies list: \$e");
       emit(GetMoviesDataErrorState());
     }
   }
-
 
 
   Future<void> getMoviesData(int movieId) async {

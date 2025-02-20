@@ -1,29 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movies_app/bloc/state.dart';
-import 'package:movies_app/movies_details/item.dart';
-
-import '../../bloc/cubit.dart';
 
 class HomeTab extends StatelessWidget {
-  static const String routeName = "SourcesSection";
+  const HomeTab({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomeCubit, HomeStates>(
-      builder: (context, state) {
-        if (state is GetMoviesDataLoadingState) {
-          return Center(child: CircularProgressIndicator());
-        } else if (state is GetMoviesListSuccessState) {
-          return ListView.builder(
-            itemCount: state.movies.length,
-            itemBuilder: (context, index) {
-              return NewsItem(movie: state.movies[index]);
-            },
-          );
-        } else {
-          return Center(child: Text("Error loading movies"));
-        }
-      },
-    );
+    return const Placeholder();
   }
 }
