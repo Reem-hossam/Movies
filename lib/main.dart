@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movies_app/theme/app%20theme.dart';
+import 'package:movies_app/theme/theme.dart';
+import 'package:movies_app/theme/theme.dart';
 
 import 'bloc/cubit.dart';
+
+import 'home/home.dart';
+import 'home/tabs/profile tab/edit profile.dart';
 import 'movies_details/test.dart';
 
 void main() {
@@ -10,7 +16,7 @@ void main() {
       providers: [
         BlocProvider(create: (context) => HomeCubit()..getMoviesList()),
       ],
-      child: const MyApp(),
+      child:  MyApp(),
     ),
   );
 }
@@ -22,9 +28,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Themes theme = AppTheme();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: SourcesSection(),
+        initialRoute: Home.routeName,
+        theme: theme.themeData,
+        routes: {
+          UpdateProfileScreen.routeName: (context) => UpdateProfileScreen(),
+          Home.routeName: (context) => Home(),
+        }
     );
   }
 }
