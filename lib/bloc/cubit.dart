@@ -49,6 +49,7 @@ class HomeCubit extends Cubit<HomeStates> {
 
 
 
+
   Future<void> getMoviesData(int movieId) async {
     try {
       emit(GetMoviesDataLoadingState());

@@ -4,7 +4,6 @@ import 'package:movies_app/bloc/cubit.dart';
 import 'package:movies_app/bloc/state.dart';
 import 'package:movies_app/movies_details/item.dart';
 
-
 class HomeTab extends StatelessWidget {
   static const String routeName = "SourcesSection";
   @override
