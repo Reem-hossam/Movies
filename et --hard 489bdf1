@@ -1,0 +1,29 @@
+[33m18b22a8[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m HEAD@{0}: commit (merge): حل التعارضات
+[33m4a9490b[m HEAD@{1}: commit: حل التعارضات
+[33md53b78e[m HEAD@{2}: reset: moving to HEAD
+[33md53b78e[m HEAD@{3}: commit: new
+[33m75c7540[m HEAD@{4}: commit (merge): حل التعارضات
+[33m489bdf1[m HEAD@{5}: commit: حفظ التعديلات قبل الدمج
+[33mbc97511[m HEAD@{6}: reset: moving to HEAD
+[33mbc97511[m HEAD@{7}: rebase (abort): returning to refs/heads/master
+[33m4c21891[m HEAD@{8}: pull origin master --rebase (start): checkout 4c218916357cb054e33d68412fb6d48230ca768b
+[33mbc97511[m HEAD@{9}: commit: new
+[33me69ddea[m HEAD@{10}: rebase (abort): returning to refs/heads/master
+[33me69ddea[m HEAD@{11}: rebase (abort): returning to refs/heads/master
+[33me69ddea[m HEAD@{12}: commit: all
+[33mffb90eb[m HEAD@{13}: commit: all
+[33m9a2e6e8[m HEAD@{14}: commit: all
+[33mdea4a92[m HEAD@{15}: reset: moving to HEAD
+[33mdea4a92[m HEAD@{16}: commit: all
+[33m8560631[m HEAD@{17}: commit: all
+[33mb61c290[m HEAD@{18}: commit: حفظ التعديلات قبل استرجاع stash
+[33me6c08a2[m HEAD@{19}: reset: moving to HEAD
+[33me6c08a2[m HEAD@{20}: commit: all
+[33me9a804f[m HEAD@{21}: commit: all
+[33m5ab8507[m HEAD@{22}: commit: all
+[33mcf3b6f1[m HEAD@{23}: commit: all
+[33m308dacd[m[33m ([m[1;32mdevelper[m[33m)[m HEAD@{24}: checkout: moving from master to master
+[33m308dacd[m[33m ([m[1;32mdevelper[m[33m)[m HEAD@{25}: checkout: moving from develper to master
+[33m308dacd[m[33m ([m[1;32mdevelper[m[33m)[m HEAD@{26}: checkout: moving from master to develper
+[33m308dacd[m[33m ([m[1;32mdevelper[m[33m)[m HEAD@{27}: commit: all
+[33m913e290[m HEAD@{28}: clone: from https://github.com/Reem-hossam/Movies.git

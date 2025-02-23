@@ -20,23 +20,39 @@ class HomeCubit extends Cubit<HomeStates> {
 
   static HomeCubit get(context) => BlocProvider.of(context);
 
-  Future<void> getMoviesList() async {
+  int _getGenreId(String category) {
+    Map<String, int> genres = {
+      "Action": 28,
+      "Adventure": 12,
+      "Animation": 16,
+      "Biography": 99,
+      "Sci-Fi": 878,
+      "Horror": 27,
+      "Fantasy": 14,
+      "Romance": 10749,
+      "Comedy": 35
+    };
+    return genres[category] ?? 0;
+  }
+
+  Future<void> getMoviesList([String? category]) async {
     try {
       emit(GetMoviesDataLoadingState());
-      Uri url = Uri.parse(
-          "https://api.themoviedb.org/3/movie/popular?api_key=6980635866782b3cd72fefe48e1cb0c7&language=en-US&page=1");
+
+
+      String genreParam = category != null ? "&with_genres=${_getGenreId(category)}" : "";
+
+      Uri url = Uri.parse("https://api.themoviedb.org/3/discover/movie?api_key=6980635866782b3cd72fefe48e1cb0c7&language=en-US&page=1$genreParam");
+
       http.Response response = await http.get(url);
 
       if (response.statusCode == 200) {
         var json = jsonDecode(response.body);
         List<dynamic> moviesJson = json['results'];
 
-        List<MoviesResponse> movies =
-        moviesJson.map((e) => MoviesResponse.fromJson(e)).toList();
+        moviesList = moviesJson.map((e) => MoviesResponse.fromJson(e)).toList();
 
-        moviesList = movies;
-
-        emit(GetMoviesListSuccessState(movies));
+        emit(GetMoviesListSuccessState(moviesList!));
       } else {
         print("Error: Failed to load movies list, Status Code: ${response.statusCode}");
         emit(GetMoviesDataErrorState());

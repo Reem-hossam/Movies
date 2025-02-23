@@ -40,7 +40,7 @@ class _HomeState extends State<Home> {
 List<Widget>tabs=[
   HomeTab(),
   SearchTab(),
-  Browes(),
+  Browse(),
   ProfileTab(),
 
 
