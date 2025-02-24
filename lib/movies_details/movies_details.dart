@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/movies_details/video.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import '../bloc/cubit.dart';
 import '../bloc/state.dart';
@@ -22,7 +23,7 @@ class MoviesDetails extends StatefulWidget {
 class _MoviesDetailsState extends State<MoviesDetails> {
   bool isPlaying = false;
   late YoutubePlayerController _youtubeController;
-
+  int wishListCount = 0;
   @override
   void initState() {
     super.initState();
@@ -33,6 +34,20 @@ class _MoviesDetailsState extends State<MoviesDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(onPressed: (){
+          Navigator.pop(context);
+        }, icon:Icon(Icons.arrow_back),
+      ),
+        actions: [
+          IconButton(onPressed: (){
+            void addToWishList() {
+              wishListCount++;
+            }
+          },
+              icon: Icon(Icons.favorite))
+        ],
+      ),
       backgroundColor: Colors.black,
       body: BlocBuilder<HomeCubit, HomeStates>(
         builder: (context, state) {
@@ -438,4 +453,13 @@ class _MoviesDetailsState extends State<MoviesDetails> {
       ),
     );
   }
+}
+
+
+void addToHistory( String posterPath) async {
+  final prefs = await SharedPreferences.getInstance();
+  List<String> posters = prefs.getStringList('history_posters') ?? [];
+  posters.add(posterPath);
+  prefs.setStringList('history_posters', posters);
+
 }

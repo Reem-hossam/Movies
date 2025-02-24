@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 
-class EmptyPlaceholder extends StatelessWidget {
+class EmptyPlaceholder extends StatefulWidget {
   const EmptyPlaceholder({super.key});
 
+  @override
+  State<EmptyPlaceholder> createState() => _EmptyPlaceholderState();
+}
+
+class _EmptyPlaceholderState extends State<EmptyPlaceholder> {
   @override
   Widget build(BuildContext context) {
     return Center(

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:movies_app/home/tabs/browes.dart';
 import 'package:movies_app/home/tabs/home%20tap.dart';
 import 'package:movies_app/home/tabs/profile%20tab/profile_tab.dart';

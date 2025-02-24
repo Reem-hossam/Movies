@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import '../model/details_model.dart';
 import '../model/screenshot_model.dart';
 import '../model/similar_model.dart';
 import '../model/video_model.dart' as video;
+import '../movies_details/movies_details.dart';
 import '/bloc/state.dart';
 
 class HomeCubit extends Cubit<HomeStates> {
@@ -65,7 +67,6 @@ class HomeCubit extends Cubit<HomeStates> {
 
 
 
-
   Future<void> getMoviesData(int movieId) async {
     try {
       emit(GetMoviesDataLoadingState());
@@ -101,6 +102,8 @@ class HomeCubit extends Cubit<HomeStates> {
           movieVideoUrl = null;
           print("No videos found!");
         }
+
+        addToHistory( movieResponse!.posterPath!);
 
 
         emit(GetMoviesDataSuccessState());

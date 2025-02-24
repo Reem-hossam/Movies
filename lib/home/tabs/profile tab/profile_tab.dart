@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 
 import '../../home.dart';
-import 'History.dart';
+import 'History screen.dart';
 import 'edit profile.dart';
 import 'watch list.dart';
 
@@ -10,7 +10,12 @@ class ProfileTab extends StatelessWidget {
 
 
   ProfileTab({super.key});
+
   String selectedAvatar = "assets/avatar1.png";
+
+  int historyCounter=0;
+
+  int watchlistCounter=0;
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +37,20 @@ class ProfileTab extends StatelessWidget {
               backgroundImage: AssetImage(selectedAvatar),
             ),
 
-                Text("Wish List"),
-                Text("History"),
+                Column(
+                  children: [
+                    Text("$watchlistCounter"),
+                    SizedBox(height: 20,),
+                    Text("Wish List"),
+                  ],
+                ),
+                Column(
+                  children: [
+                    Text("$historyCounter"),
+                    SizedBox(height: 20,),
+                    Text("History"),
+                  ],
+                ),
           ],
         ),
         SizedBox(height: 15,),
@@ -92,7 +109,7 @@ class ProfileTab extends StatelessWidget {
         body: TabBarView(
             children:[
               WatchList(),
-              History(),
+              HistoryScreen(),
         ]
         ),
       ),
