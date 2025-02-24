@@ -4,6 +4,9 @@ import 'package:movies_app/theme/app%20theme.dart';
 import 'package:movies_app/theme/theme.dart';
 import 'package:movies_app/theme/theme.dart';
 
+import 'Login Screen/Login Screen.dart';
+import 'Login Screen/forget_password.dart';
+import 'Login Screen/register.dart';
 import 'bloc/cubit.dart';
 
 import 'home/home.dart';
@@ -31,11 +34,14 @@ class MyApp extends StatelessWidget {
     Themes theme = AppTheme();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-        initialRoute: Home.routeName,
+        initialRoute: LoginScreen.routeName,
         theme: theme.themeData,
         routes: {
           UpdateProfileScreen.routeName: (context) => UpdateProfileScreen(),
           Home.routeName: (context) => Home(),
+          LoginScreen.routeName: (context) => LoginScreen(),
+          RegisterScreen.routeName: (context) => RegisterScreen(),
+          ForgetPassword.routeName: (context) => ForgetPassword(),
         }
     );
   }

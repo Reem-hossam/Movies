@@ -35,17 +35,22 @@ class _MoviesDetailsState extends State<MoviesDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
         leading: IconButton(onPressed: (){
           Navigator.pop(context);
-        }, icon:Icon(Icons.arrow_back),
+        }, icon:Icon(Icons.arrow_back,
+        color: Colors.white,),
       ),
         actions: [
-          IconButton(onPressed: (){
-            void addToWishList() {
-              wishListCount++;
-            }
-          },
-              icon: Icon(Icons.favorite))
+         InkWell(
+           onTap: (){
+               void addToWishList() {
+                 wishListCount++;
+               }
+
+           },
+             child: Image.asset("assets/images/save.png"))
+
         ],
       ),
       backgroundColor: Colors.black,
