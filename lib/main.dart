@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movies_app/home/onboarding/onboarding_screen.dart';
 import 'package:movies_app/theme/app%20theme.dart';
 import 'package:movies_app/theme/theme.dart';
 import 'package:movies_app/theme/theme.dart';
@@ -34,9 +35,14 @@ class MyApp extends StatelessWidget {
     Themes theme = AppTheme();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+<<<<<<< HEAD
         initialRoute: LoginScreen.routeName,
+=======
+        initialRoute: OnboardingScreen.routeName,
+>>>>>>> a175fb077108f590ae672e28141b2686f95482ae
         theme: theme.themeData,
         routes: {
+          OnboardingScreen.routeName: (context)=> OnboardingScreen(),
           UpdateProfileScreen.routeName: (context) => UpdateProfileScreen(),
           Home.routeName: (context) => Home(),
           LoginScreen.routeName: (context) => LoginScreen(),
