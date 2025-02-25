@@ -30,23 +30,57 @@ class _MoviesDetailsState extends State<MoviesDetails> {
     Future.microtask(() => context.read<HomeCubit>().getMoviesData(widget.movieId));
 
   }
+  Future<void> addToWatchList(int movieId, String posterPath) async {
+    final prefs = await SharedPreferences.getInstance();
+    List<String> watchList = prefs.getStringList('watch_list') ?? [];
+
+    String movieData = "$movieId|$posterPath";
+    if (!watchList.contains(movieData)) {
+      watchList.add(movieData);
+      await prefs.setStringList('watch_list', watchList);
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
         leading: IconButton(onPressed: (){
           Navigator.pop(context);
-        }, icon:Icon(Icons.arrow_back),
+        }, icon:Icon(Icons.arrow_back_ios_new,
+        color: Colors.white,),
       ),
         actions: [
-          IconButton(onPressed: (){
-            void addToWishList() {
-              wishListCount++;
-            }
-          },
-              icon: Icon(Icons.favorite))
+          BlocBuilder<HomeCubit, HomeStates>(
+            builder: (context, state) {
+              if (state is GetMoviesDataSuccessState) {
+                var movie = HomeCubit.get(context).movieResponse;
+
+                return GestureDetector(
+                  onTap: () async {
+                    if (movie != null) {
+                      await addToWatchList(widget.movieId, movie.posterPath ?? "");
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text("Added to Watch List!")),
+                      );
+                    }
+                  },
+                  child: Image.asset(
+                    "assets/images/save.png",
+                    width: 30,
+                    height: 30,
+                  ),
+                );
+              } else {
+                return SizedBox.shrink();
+              }
+            },
+          ),
         ],
+
+
       ),
       backgroundColor: Colors.black,
       body: BlocBuilder<HomeCubit, HomeStates>(
