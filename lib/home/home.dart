@@ -27,10 +27,10 @@ class _HomeState extends State<Home> {
             setState(() {});
           },
           items: [
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-            BottomNavigationBarItem(icon: Icon(Icons.search), label: "search"),
-            BottomNavigationBarItem(icon: Icon(Icons.compass_calibration_rounded), label: "Browse"),
-            BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
+            BottomNavigationBarItem(icon: ImageIcon(AssetImage("assets/tab_icons/home.png"),color: Colors.white,), label: "Home"),
+            BottomNavigationBarItem(icon: ImageIcon(AssetImage("assets/tab_icons/search.png"),color: Colors.white), label: "search"),
+            BottomNavigationBarItem(icon: ImageIcon(AssetImage("assets/tab_icons/explore.png"),color: Colors.white), label: "Browse"),
+            BottomNavigationBarItem(icon: ImageIcon(AssetImage("assets/tab_icons/profile.png"),color: Colors.white), label: "Profile"),
           ]
       ),
       body:tabs[currentIndex],

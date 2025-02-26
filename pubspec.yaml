@@ -35,7 +35,7 @@ dependencies:
   http: ^1.3.0
   youtube_player_flutter: ^9.1.1
   cached_network_image: ^3.4.1
-  carousel_slider: ^5.0.0
+
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -71,7 +71,7 @@ flutter:
   assets:
     - assets/images/
     - assets/images/Forgot_password.png
-  #   - images/a_dot_ham.jpeg
+    - assets/tab_icons/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
