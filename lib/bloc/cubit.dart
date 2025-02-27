@@ -102,7 +102,11 @@ class HomeCubit extends Cubit<HomeStates> {
           print("No videos found!");
         }
 
-        addToHistory( movieResponse!.posterPath!);
+        addToHistory(
+          movieResponse!.id!,
+          movieResponse!.posterPath!,
+          movieResponse!.voteAverage!,
+        );
 
 
         emit(GetMoviesDataSuccessState());

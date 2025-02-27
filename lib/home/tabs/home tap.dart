@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/bloc/cubit.dart';
 import 'package:movies_app/bloc/state.dart';
-import 'package:movies_app/movies_details/item.dart';
 import 'package:movies_app/widget/movie_poster.dart';
 
 import '../../widget/poster.dart';

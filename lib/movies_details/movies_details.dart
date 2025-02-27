@@ -23,7 +23,6 @@ class MoviesDetails extends StatefulWidget {
 class _MoviesDetailsState extends State<MoviesDetails> {
   bool isPlaying = false;
   late YoutubePlayerController _youtubeController;
-  int wishListCount = 0;
   @override
   void initState() {
     super.initState();
@@ -57,8 +56,6 @@ class _MoviesDetailsState extends State<MoviesDetails> {
           BlocBuilder<HomeCubit, HomeStates>(
             builder: (context, state) {
               if (state is GetMoviesDataSuccessState) {
-                var movie = HomeCubit.get(context).movieResponse;
-
                 return GestureDetector(
                   onTap: ()  {
                     var movie = HomeCubit.get(context).movieResponse;
@@ -493,10 +490,18 @@ class _MoviesDetailsState extends State<MoviesDetails> {
 }
 
 
-void addToHistory( String posterPath) async {
+Future<void> addToHistory(int movieId, String posterPath, double voteAverage) async {
   final prefs = await SharedPreferences.getInstance();
-  List<String> posters = prefs.getStringList('history_posters') ?? [];
-  posters.add(posterPath);
-  prefs.setStringList('history_posters', posters);
+  List<String> savedList = prefs.getStringList('history_posters') ?? [];
 
+  String entry = '$movieId|$posterPath|$voteAverage';
+
+  if (!savedList.contains(entry)) {
+    savedList.add(entry);
+    await prefs.setStringList('history_posters', savedList);
+    print("Movie added to history: $entry");
+  }
 }
+
+
+

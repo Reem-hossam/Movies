@@ -2,16 +2,35 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HistoryScreen extends StatelessWidget {
-  Future<List<Map<String, String>>> getMovieHistory() async {
+  Future<List<Map<String, dynamic>>> getMovieHistory() async {
     final prefs = await SharedPreferences.getInstance();
-    List<String> posters = prefs.getStringList('history_posters') ?? [];
+    List<String> savedList = prefs.getStringList('history_posters') ?? [];
 
-    return posters.map((poster) => {"poster": poster}).toList();
+    List<Map<String, dynamic>> historyList = [];
+    for (String entry in savedList) {
+      List<String> parts = entry.split('|');
+
+      if (parts.length == 3) {
+        int? id = int.tryParse(parts[0]);
+        double? voteAverage = double.tryParse(parts[2]);
+
+        if (id != null && voteAverage != null) {
+          historyList.add({
+            "id": id,
+            "poster": parts[1],
+            "voteAverage": voteAverage,
+          });
+        }
+      }
+    }
+
+    return historyList;
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FutureBuilder<List<Map<String, String>>>(
+      body: FutureBuilder<List<Map<String, dynamic>>>(
         future: getMovieHistory(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -32,9 +51,9 @@ class HistoryScreen extends StatelessWidget {
                 crossAxisSpacing: 18,
                 mainAxisSpacing: 18,
               ),
-              itemCount:   snapshot.data!.length,
+              itemCount: snapshot.data!.length,
               itemBuilder: (context, index) {
-                final movie =   snapshot.data![index];
+                final movie = snapshot.data![index];
 
                 return Stack(
                   children: [
@@ -48,17 +67,19 @@ class HistoryScreen extends StatelessWidget {
                       ),
                     ),
                     Positioned(
+                      top: 10,
+                      left: 10,
                       child: Container(
-                        width: 70,
                         padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                         decoration: BoxDecoration(
                           color: Color(0xB5121312),
                           borderRadius: BorderRadius.circular(16),
                         ),
                         child: Row(
+                          mainAxisSize: MainAxisSize.min,
                           children: [
                             Text(
-                              "0.0", // Placeholder for vote average
+                              "${movie['voteAverage']?.toStringAsFixed(1) ?? "0.0"}",
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 16,

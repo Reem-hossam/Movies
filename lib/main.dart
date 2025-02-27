@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/home/onboarding/onboarding_screen.dart';
 import 'package:movies_app/theme/app%20theme.dart';
 import 'package:movies_app/theme/theme.dart';
-import 'package:movies_app/theme/theme.dart';
 
 import 'Login Screen/Login Screen.dart';
 import 'Login Screen/forget_password.dart';
@@ -12,7 +11,6 @@ import 'bloc/cubit.dart';
 
 import 'home/home.dart';
 import 'home/tabs/profile tab/edit profile.dart';
-import 'movies_details/test.dart';
 
 void main() {
   runApp(
