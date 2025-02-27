@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movies_app/home/tabs/home%20tap.dart';
 import 'package:movies_app/movies_details/video.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -28,10 +27,15 @@ class _MoviesDetailsState extends State<MoviesDetails> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() => context.read<HomeCubit>().getMoviesData(widget.movieId));
-
-
+    Future.microtask(() async {
+      await context.read<HomeCubit>().getMoviesData(widget.movieId);
+      var movie = HomeCubit.get(context).movieResponse;
+      if (movie != null) {
+        addToHistory(widget.movieId, movie.posterPath ?? "", movie.voteAverage ?? 0.0);
+      }
+    });
   }
+
   void addToWatchList(int movieId, String posterPath, double voteAverage) async {
     final prefs = await SharedPreferences.getInstance();
     List<String> watchList = prefs.getStringList('watch_list') ?? [];

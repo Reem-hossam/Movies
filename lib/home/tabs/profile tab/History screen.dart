@@ -1,7 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class HistoryScreen extends StatelessWidget {
+class HistoryScreen extends StatefulWidget {
+  final Function updateHistoryCounter;
+
+  HistoryScreen({required this.updateHistoryCounter});
+
+  @override
+  _HistoryScreenState createState() => _HistoryScreenState();
+}
+
+class _HistoryScreenState extends State<HistoryScreen> {
+  late Future<List<Map<String, dynamic>>> _movieHistoryFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _movieHistoryFuture = getMovieHistory();
+  }
+
   Future<List<Map<String, dynamic>>> getMovieHistory() async {
     final prefs = await SharedPreferences.getInstance();
     List<String> savedList = prefs.getStringList('history_posters') ?? [];
@@ -31,7 +48,7 @@ class HistoryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder<List<Map<String, dynamic>>>(
-        future: getMovieHistory(),
+        future: _movieHistoryFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
@@ -40,6 +57,9 @@ class HistoryScreen extends StatelessWidget {
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return Center(child: Text("No history available"));
           }
+
+          // تحديث العداد عند تحميل البيانات بنجاح
+          widget.updateHistoryCounter();
 
           return SingleChildScrollView(
             child: GridView.builder(

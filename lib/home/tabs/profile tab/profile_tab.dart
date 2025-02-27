@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:movies_app/home/home.dart';
+import 'package:movies_app/home/tabs/profile%20tab/History%20screen.dart';
+import 'package:movies_app/home/tabs/profile%20tab/edit%20profile.dart';
+import 'package:movies_app/home/tabs/profile%20tab/watch%20list.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../home.dart';
-import 'History screen.dart';
-import 'edit profile.dart';
-import 'watch list.dart';
 
 class ProfileTab extends StatefulWidget {
   @override
@@ -32,11 +32,12 @@ class _ProfileTabState extends State<ProfileTab> {
 
   Future<void> loadHistoryListCount() async {
     final prefs = await SharedPreferences.getInstance();
-    List<String> historyList = prefs.getStringList('history_list') ?? [];
+    List<String> historyList = prefs.getStringList('history_posters') ?? [];
     setState(() {
       historyCounter = historyList.length;
     });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -132,7 +133,7 @@ class _ProfileTabState extends State<ProfileTab> {
         body: TabBarView(
           children: [
             WatchListScreen(),
-            HistoryScreen(),
+            HistoryScreen(updateHistoryCounter: loadHistoryListCount),  // Pass the counter update function
           ],
         ),
       ),
