@@ -1,5 +1,7 @@
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:movies_app/Login%20Screen/register.dart';
 
 import '../../home/home.dart';
@@ -145,9 +147,30 @@ class LoginScreen extends StatelessWidget {
                         )),
                   ],
                 ),
-                OutlinedButton(onPressed: (){}, child: Row(
 
-                ))
+                ElevatedButton(
+                  onPressed: () {
+                    signInWithGoogle();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    // padding: const EdgeInsets.symmetric(vertical: 8,),
+                    backgroundColor: Colors.cyanAccent,
+                    shape: RoundedRectangleBorder(
+                        side: BorderSide(color: Colors.black),
+                        borderRadius: BorderRadius.circular(14)),),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset("assets/images/google.png"),
+                      SizedBox(width: 8,),
+                      Text("Login With Google",
+                          style: TextStyle(
+                            color: Colors.red
+                          )),
+                    ],
+                  ),
+                ),
+
               ],
             ),
           ),
@@ -155,4 +178,20 @@ class LoginScreen extends StatelessWidget {
       ),
     );
   }
+}
+signInWithGoogle() async {
+  // Trigger the authentication flow
+  final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+  // Obtain the auth details from the request
+  final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+
+  // Create a new credential
+  final credential = GoogleAuthProvider.credential(
+    accessToken: googleAuth?.accessToken,
+    idToken: googleAuth?.idToken,
+  );
+
+  // Once signed in, return the UserCredential
+  return await FirebaseAuth.instance.signInWithCredential(credential);
 }
