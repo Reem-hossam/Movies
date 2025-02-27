@@ -87,7 +87,7 @@ class LoginScreen extends StatelessWidget {
                       style: Theme.of(context)
                           .textTheme
                           .titleMedium!
-                          .copyWith(color: Colors.white)),
+                          .copyWith(color: Color(0xff282A28))),
                 ),
                 const SizedBox(
                   height: 24,
@@ -147,14 +147,16 @@ class LoginScreen extends StatelessWidget {
                         )),
                   ],
                 ),
-
+                const SizedBox(
+                  height: 24,
+                ),
                 ElevatedButton(
                   onPressed: () {
                     signInWithGoogle();
                   },
                   style: ElevatedButton.styleFrom(
-                    // padding: const EdgeInsets.symmetric(vertical: 8,),
-                    backgroundColor: Colors.cyanAccent,
+                    padding: const EdgeInsets.symmetric(vertical: 16,),
+                    backgroundColor: Color(0xffF6BD00),
                     shape: RoundedRectangleBorder(
                         side: BorderSide(color: Colors.black),
                         borderRadius: BorderRadius.circular(14)),),
@@ -165,7 +167,9 @@ class LoginScreen extends StatelessWidget {
                       SizedBox(width: 8,),
                       Text("Login With Google",
                           style: TextStyle(
-                            color: Colors.red
+                            color: Color(0xff282A28),
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400
                           )),
                     ],
                   ),
