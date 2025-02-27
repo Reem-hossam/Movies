@@ -46,6 +46,7 @@ class HomeCubit extends Cubit<HomeStates> {
       Uri url = Uri.parse("https://api.themoviedb.org/3/discover/movie?api_key=6980635866782b3cd72fefe48e1cb0c7&language=en-US&page=1$genreParam");
 
       http.Response response = await http.get(url);
+      print("Response Body: ${response.body}");
 
       if (response.statusCode == 200) {
         var json = jsonDecode(response.body);
@@ -54,7 +55,8 @@ class HomeCubit extends Cubit<HomeStates> {
         moviesList = moviesJson.map((e) => MoviesResponse.fromJson(e)).toList();
 
         emit(GetMoviesListSuccessState(moviesList!));
-      } else {
+      }
+      else {
         print("Error: Failed to load movies list, Status Code: ${response.statusCode}");
         emit(GetMoviesDataErrorState());
       }
@@ -72,7 +74,10 @@ class HomeCubit extends Cubit<HomeStates> {
 
       Uri url = Uri.parse(
           "https://api.themoviedb.org/3/movie/$movieId?api_key=6980635866782b3cd72fefe48e1cb0c7&language=en-US&append_to_response=credits,videos,images,recommendations&include_image_language=null,en");
+
       http.Response response = await http.get(url);
+
+      print("Response Body: ${response.body}");
 
       if (response.statusCode == 200) {
         var json = jsonDecode(response.body);
@@ -102,11 +107,6 @@ class HomeCubit extends Cubit<HomeStates> {
           print("No videos found!");
         }
 
-        addToHistory(
-          movieResponse!.id!,
-          movieResponse!.posterPath!,
-          movieResponse!.voteAverage!,
-        );
 
 
         emit(GetMoviesDataSuccessState());

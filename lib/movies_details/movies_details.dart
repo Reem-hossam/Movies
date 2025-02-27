@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import '../bloc/cubit.dart';
 import '../bloc/state.dart';
+import '../home/home.dart';
 import '../model/details_model.dart';
 import '../model/screenshot_model.dart';
 import '../model/similar_model.dart' ;
@@ -28,6 +29,7 @@ class _MoviesDetailsState extends State<MoviesDetails> {
     super.initState();
     Future.microtask(() => context.read<HomeCubit>().getMoviesData(widget.movieId));
 
+
   }
   void addToWatchList(int movieId, String posterPath, double voteAverage) async {
     final prefs = await SharedPreferences.getInstance();
@@ -48,7 +50,9 @@ class _MoviesDetailsState extends State<MoviesDetails> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         leading: IconButton(onPressed: (){
-          Navigator.pop(context);
+          Navigator.popUntil(context, ModalRoute.withName(Home.routeName));
+
+
         }, icon:Icon(Icons.arrow_back_ios_new,
         color: Colors.white,),
       ),

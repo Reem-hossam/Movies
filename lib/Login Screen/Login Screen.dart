@@ -1,7 +1,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:movies_app/Login%20Screen/register.dart';
-import 'package:provider/provider.dart';
 
 import '../../home/home.dart';
 

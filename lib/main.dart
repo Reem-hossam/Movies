@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/home/onboarding/onboarding_screen.dart';
+import 'package:movies_app/home/tabs/home%20tap.dart';
 import 'package:movies_app/theme/app%20theme.dart';
 import 'package:movies_app/theme/theme.dart';
 
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget {
           OnboardingScreen.routeName: (context)=> OnboardingScreen(),
           UpdateProfileScreen.routeName: (context) => UpdateProfileScreen(),
           Home.routeName: (context) => Home(),
+          HomeTab.routeName: (context) => HomeTab(),
           LoginScreen.routeName: (context) => LoginScreen(),
           RegisterScreen.routeName: (context) => RegisterScreen(),
           ForgetPassword.routeName: (context) => ForgetPassword(),

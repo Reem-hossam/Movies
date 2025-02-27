@@ -3,13 +3,30 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/bloc/cubit.dart';
 import 'package:movies_app/bloc/state.dart';
 import 'package:movies_app/widget/movie_poster.dart';
+import 'package:movies_app/widget/poster.dart';
 
-import '../../widget/poster.dart';
 
-class HomeTab extends StatelessWidget {
+class HomeTab extends StatefulWidget {
   static const String routeName = "SourcesSection";
+
+  @override
+  State<HomeTab> createState() => _HomeTabState();
+}
+
+class _HomeTabState extends State<HomeTab> {
+  @override
+  void initState() {
+    super.initState();
+    HomeCubit.get(context).getMoviesList();
+  }
+
   @override
   Widget build(BuildContext context) {
+    var cubit = HomeCubit.get(context);
+    if (cubit.moviesList == null || cubit.moviesList!.isEmpty) {
+      cubit.getMoviesList();
+    }
+
     return BlocBuilder<HomeCubit, HomeStates>(
       builder: (context, state) {
         if (state is GetMoviesDataLoadingState) {
@@ -28,15 +45,15 @@ class HomeTab extends StatelessWidget {
                 ),
               ),
               Expanded(
-                  flex: 1,
-                  child: ListView.builder(
-                    itemBuilder: (context, index) {
-                      return Poster(movie: state.movies[index]);
-                    },
-                    // separatorBuilder: (context, index) => SizedBox(width: 16,),
-                    itemCount: state.movies.length,
-                    scrollDirection: Axis.horizontal,
-                  ))
+                flex: 1,
+                child: ListView.builder(
+                  itemBuilder: (context, index) {
+                    return Poster(movie: state.movies[index]);
+                  },
+                  itemCount: state.movies.length,
+                  scrollDirection: Axis.horizontal,
+                ),
+              )
             ],
           );
         } else {
@@ -46,3 +63,4 @@ class HomeTab extends StatelessWidget {
     );
   }
 }
+
