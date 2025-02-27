@@ -34,15 +34,13 @@ class _BrowseState extends State<Browse> {
 
     return Scaffold(
       backgroundColor: Colors.black,
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-      ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             height: 40,
             padding: EdgeInsets.symmetric(horizontal: 8),
+            margin: EdgeInsets.only(top: 30),
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
               separatorBuilder: (context, index) => SizedBox(width: 8),

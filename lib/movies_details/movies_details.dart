@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movies_app/home/tabs/home%20tap.dart';
 import 'package:movies_app/movies_details/video.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -50,9 +51,7 @@ class _MoviesDetailsState extends State<MoviesDetails> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         leading: IconButton(onPressed: (){
-          Navigator.popUntil(context, ModalRoute.withName(Home.routeName));
-
-
+          Navigator.pushNamedAndRemoveUntil(context, Home.routeName, (route) => false);
         }, icon:Icon(Icons.arrow_back_ios_new,
         color: Colors.white,),
       ),

@@ -7,7 +7,7 @@ import 'package:movies_app/widget/poster.dart';
 
 
 class HomeTab extends StatefulWidget {
-  static const String routeName = "SourcesSection";
+  static const String routeName = "HomeTab";
 
   @override
   State<HomeTab> createState() => _HomeTabState();

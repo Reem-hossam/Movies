@@ -14,7 +14,11 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-
+  @override
+  void initState() {
+    super.initState();
+    HomeCubit.get(context).getMoviesList();
+  }
   int currentIndex = 0;
   final List<Widget> tabs = [
     HomeTab(),
