@@ -87,49 +87,54 @@ class LoginScreen extends StatelessWidget {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.pushNamedAndRemoveUntil(context, Home.routeName, (route) => false);
+                    print("Trying to login...");
+                    print("Email: ${emailController.text}");
+                    print("Password: ${passwordController.text}");
 
-                    // FirebaseManager.login(
-                    //   emailController.text,
-                    //   passwordController.text,
-                    //       () {
-                    //     showDialog(
-                    //       context: context,
-                    //       builder: (context) => const AlertDialog(
-                    //         title: Center(child: CircularProgressIndicator()),
-                    //         backgroundColor: Colors.transparent,
-                    //       ),
-                    //     );
-                    //   },
-                    //       () async {
-                    //     Navigator.pop(context);
-                    //     await userProvider.initUser();
-                    //     Navigator.pushNamedAndRemoveUntil(
-                    //       context,
-                    //       Home.routeName,
-                    //           (route) => false,
-                    //     );
-                    //   },
-                    //       (message) {
-                    //     Navigator.pop(context);
-                    //     showDialog(
-                    //       context: context,
-                    //       barrierDismissible: false,
-                    //       builder: (context) => AlertDialog(
-                    //         title: const Text("Something went Wrong"),
-                    //         content: Text(message),
-                    //         actions: [
-                    //           ElevatedButton(
-                    //               onPressed: () {
-                    //                 Navigator.pop(context);
-                    //               },
-                    //               child: const Text("Ok"))
-                    //         ],
-                    //       ),
-                    //     );
-                    //   },
-                    // );
+                    FirebaseManager.login(
+                      emailController.text.trim(),
+                      passwordController.text.trim(),
+                          () {
+                        showDialog(
+                          context: context,
+                          builder: (context) => const AlertDialog(
+                            title: Center(child: CircularProgressIndicator()),
+                            backgroundColor: Colors.transparent,
+                          ),
+                        );
+                      },
+                          () async {
+                        print("Login successful!");  // ✅ تحقق أن تسجيل الدخول نجح
+                        Navigator.pop(context);
+                        await userProvider.initUser();
+                        Navigator.pushNamedAndRemoveUntil(
+                          context,
+                          Home.routeName,
+                              (route) => false,
+                        );
+                      },
+                          (message) {
+                        print("Login failed: $message");  // ❌ إذا فشل تسجيل الدخول، اطبع السبب
+                        Navigator.pop(context);
+                        showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (context) => AlertDialog(
+                            title: const Text("Something went Wrong"),
+                            content: Text(message),
+                            actions: [
+                              ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text("Ok"))
+                            ],
+                          ),
+                        );
+                      },
+                    );
                   },
+
                   style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 12),
                       backgroundColor: Theme.of(context).primaryColor,

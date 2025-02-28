@@ -248,17 +248,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
                         FirebaseManager.createAccount(
-                          nameController.text,
-                          emailController.text,
-                          passwordController.text,
-                          selectedAvatar,  // استخدام الصورة المختارة هنا
-                          phoneController.text,
+                          nameController.text.trim(),
+                          emailController.text.trim(),
+                          passwordController.text.trim(),
+                          selectedAvatar.isNotEmpty ? selectedAvatar : "default_avatar_url",
+                          phoneController.text.trim(),
                               () {
                             showDialog(
                               context: context,
+                              barrierDismissible: false,
                               builder: (context) => AlertDialog(
-                                title: Center(child: CircularProgressIndicator()),
-                                backgroundColor: Colors.transparent,
+                                content: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    CircularProgressIndicator(),
+                                    SizedBox(height: 10),
+                                    Text("Creating account..."),
+                                  ],
+                                ),
                               ),
                             );
                           },
@@ -270,16 +277,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             Navigator.pop(context);
                             showDialog(
                               context: context,
-                              barrierDismissible: false,
                               builder: (context) => AlertDialog(
-                                title: Text("Something went Wrong"),
+                                title: Text("Something went wrong"),
                                 content: Text(message),
                                 actions: [
                                   ElevatedButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: Text("Ok"))
+                                    onPressed: () => Navigator.pop(context),
+                                    child: Text("OK"),
+                                  ),
                                 ],
                               ),
                             );

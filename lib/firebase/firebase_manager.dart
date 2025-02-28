@@ -42,7 +42,6 @@ class FirebaseManager {
     await collection.doc(FirebaseAuth.instance.currentUser!.uid).get();
     return docRef.data();
   }
-
   static Future<void> createAccount(
       String name,
       String emailAddress,
@@ -51,8 +50,7 @@ class FirebaseManager {
       String phoneNumber,
       Function onLoading,
       Function onSuccess,
-      Function onError
-      ) async {
+      Function onError) async {
     try {
       onLoading();
 
@@ -82,14 +80,13 @@ class FirebaseManager {
       } else if (e.code == 'email-already-in-use') {
         onError("The email is already in use. Please use a different email.");
       } else {
-        onError("Something went wrong.");
+        onError("Something went wrong: ${e.message}");
       }
     } catch (e) {
       onError("Something went wrong.");
-      print(e);
+      print("Error in createAccount: $e");
     }
   }
-
 
 
   static Future<void> login(
@@ -101,22 +98,26 @@ class FirebaseManager {
       ) async {
     try {
       onLoading();
-      final credential = await FirebaseAuth.instance
+
+      UserCredential credential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
 
-      if (credential.user!.emailVerified) {
+      if (credential.user != null) {
         onSuccess();
       } else {
-        onError("Please verify your email before logging in.");
+        onError("Login failed. Please try again.");
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         onError("No user found for that email.");
       } else if (e.code == 'wrong-password') {
-        onError("Wrong password provided for that user.");
+        onError("Wrong password provided.");
       } else {
-        onError("Something went wrong.");
+        onError("Something went wrong: ${e.message}");
       }
+    } catch (e) {
+      onError("Something went wrong.");
+      print("Error in login: $e");
     }
   }
 
