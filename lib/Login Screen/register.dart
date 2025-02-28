@@ -89,8 +89,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
       appBar: AppBar(
         title: Text(
           "Register",
-          style: Theme.of(context).textTheme.titleMedium,
+          style: Theme.of(context).textTheme.titleMedium!.copyWith(
+            color: Color(0xffF6BD00)
+          ),
         ),
+        centerTitle: true,
       ),
       body: SafeArea(
         child: Padding(
@@ -121,7 +124,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     },
                     decoration: InputDecoration(
                       hintText: "Name",
-                      prefixIcon: Icon(Icons.person),
+                      hintStyle: TextStyle(
+                          color: Colors.white
+                      ),
+                      prefixIcon: Icon(Icons.person,
+                      color: Colors.white,),
                     ),
                   ),
                   SizedBox(
@@ -145,7 +152,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     },
                     decoration: InputDecoration(
                       hintText: "Email",
-                      prefixIcon: Icon(Icons.email),
+                      hintStyle: TextStyle(
+                          color: Colors.white
+                      ),
+                      prefixIcon: Icon(Icons.email,
+                      color: Colors.white,),
                     ),
                   ),
                   SizedBox(
@@ -164,7 +175,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     },
                     decoration: InputDecoration(
                       hintText: "Password",
-                      suffixIcon: Icon(Icons.visibility_off),
+                      hintStyle: TextStyle(
+                          color: Colors.white
+                      ),
+                      suffixIcon: Icon(Icons.visibility_off,
+                      color: Colors.white,),
+                      prefixIcon: Icon(Icons.lock,
+                        color: Colors.white,),
                     ),
                   ),
                   SizedBox(
@@ -187,7 +204,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     },
                     decoration: InputDecoration(
                       hintText: "Confirm Password",
-                      suffixIcon: Icon(Icons.visibility_off_sharp),
+                      hintStyle: TextStyle(
+                          color: Colors.white
+                      ),
+                      suffixIcon: Icon(Icons.visibility_off_sharp,
+                      color: Colors.white,),
+                      prefixIcon: Icon(Icons.lock,
+                        color: Colors.white,),
                     ),
                   ),
                   SizedBox(
@@ -211,7 +234,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     },
                     decoration: InputDecoration(
                       hintText: "Phone Number",
-                      prefixIcon: Icon(Icons.phone),
+                      hintStyle: TextStyle(
+                          color: Colors.white
+                      ),
+                      prefixIcon: Icon(Icons.phone,
+                      color: Colors.cyan,),
                     ),
                   ),
                   SizedBox(
@@ -262,7 +289,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        padding: const EdgeInsets.symmetric(vertical: 12,horizontal: 120),
                         backgroundColor: Theme.of(context).primaryColor,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(14))),
@@ -270,7 +297,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         style: Theme.of(context)
                             .textTheme
                             .titleMedium!
-                            .copyWith(color: Colors.white)),
+                            .copyWith(color: Colors.black)),
                   ),
                   SizedBox(
                     height: 24,
@@ -291,6 +318,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 .titleSmall!
                                 .copyWith(
                               fontWeight: FontWeight.w500,
+                              color: Colors.white
                             ),
                           ),
                           TextSpan(

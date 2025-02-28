@@ -12,9 +12,11 @@ class ForgetPassword extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           "Forget Password",
-          style: Theme.of(context).textTheme.bodyMedium,
-
+          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+              color: Color(0xffF6BD00)
+          ),
         ),
+        centerTitle: true,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -28,8 +30,12 @@ class ForgetPassword extends StatelessWidget {
             TextField(
               controller: emailController,
               decoration: InputDecoration(
-                hintText: "email",
-                prefixIcon: Icon(Icons.email),
+                hintText: "Email",
+                hintStyle: TextStyle(
+                    color: Colors.white
+                ),
+                prefixIcon: Icon(Icons.email,
+                color: Colors.white,),
 
               ),
             ),

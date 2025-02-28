@@ -42,8 +42,12 @@ class LoginScreen extends StatelessWidget {
                 TextField(
                   controller: emailController,
                   decoration: const InputDecoration(
-                    hintText: "email",
-                    prefixIcon: Icon(Icons.email),
+                    hintText: "Email",
+                    hintStyle: TextStyle(
+                        color: Colors.white
+                    ),
+                    prefixIcon: Icon(Icons.email,
+                    color: Colors.white,),
                   ),
                 ),
                 const SizedBox(
@@ -53,7 +57,11 @@ class LoginScreen extends StatelessWidget {
                   controller: passwordController,
                   decoration: const InputDecoration(
                     hintText: "Password",
-                    prefixIcon: Icon(Icons.lock),
+                    hintStyle: TextStyle(
+                      color: Colors.white
+                    ),
+                    prefixIcon: Icon(Icons.lock,
+                    color: Colors.white,),
                   ),
                 ),
                 const SizedBox(
@@ -79,46 +87,48 @@ class LoginScreen extends StatelessWidget {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    FirebaseManager.login(
-                      emailController.text,
-                      passwordController.text,
-                          () {
-                        showDialog(
-                          context: context,
-                          builder: (context) => const AlertDialog(
-                            title: Center(child: CircularProgressIndicator()),
-                            backgroundColor: Colors.transparent,
-                          ),
-                        );
-                      },
-                          () async {
-                        Navigator.pop(context);
-                        await userProvider.initUser();
-                        Navigator.pushNamedAndRemoveUntil(
-                          context,
-                          Home.routeName,
-                              (route) => false,
-                        );
-                      },
-                          (message) {
-                        Navigator.pop(context);
-                        showDialog(
-                          context: context,
-                          barrierDismissible: false,
-                          builder: (context) => AlertDialog(
-                            title: const Text("Something went Wrong"),
-                            content: Text(message),
-                            actions: [
-                              ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: const Text("Ok"))
-                            ],
-                          ),
-                        );
-                      },
-                    );
+                    Navigator.pushNamedAndRemoveUntil(context, Home.routeName, (route) => false);
+
+                    // FirebaseManager.login(
+                    //   emailController.text,
+                    //   passwordController.text,
+                    //       () {
+                    //     showDialog(
+                    //       context: context,
+                    //       builder: (context) => const AlertDialog(
+                    //         title: Center(child: CircularProgressIndicator()),
+                    //         backgroundColor: Colors.transparent,
+                    //       ),
+                    //     );
+                    //   },
+                    //       () async {
+                    //     Navigator.pop(context);
+                    //     await userProvider.initUser();
+                    //     Navigator.pushNamedAndRemoveUntil(
+                    //       context,
+                    //       Home.routeName,
+                    //           (route) => false,
+                    //     );
+                    //   },
+                    //       (message) {
+                    //     Navigator.pop(context);
+                    //     showDialog(
+                    //       context: context,
+                    //       barrierDismissible: false,
+                    //       builder: (context) => AlertDialog(
+                    //         title: const Text("Something went Wrong"),
+                    //         content: Text(message),
+                    //         actions: [
+                    //           ElevatedButton(
+                    //               onPressed: () {
+                    //                 Navigator.pop(context);
+                    //               },
+                    //               child: const Text("Ok"))
+                    //         ],
+                    //       ),
+                    //     );
+                    //   },
+                    // );
                   },
                   style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 12),

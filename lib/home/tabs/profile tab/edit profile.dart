@@ -34,35 +34,37 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
         return Padding(
           padding: const EdgeInsets.all(19),
           child:
-              GridView.builder(
-                shrinkWrap: true,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  crossAxisSpacing: 19,
-                  mainAxisSpacing: 17,
-                ),
-                itemCount: avatars.length,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        selectedAvatar = avatars[index];
-                      });
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: selectedAvatar ==avatars[index]?Color.fromRGBO(246, 189, 0, 0.56)
-                            : Colors.transparent,
-                        border: Border.all(
-                          color: Color.fromRGBO(246, 189, 0, 1),
-                          width:1,
+              SingleChildScrollView(
+                child: GridView.builder(
+                  shrinkWrap: true,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    crossAxisSpacing: 19,
+                    mainAxisSpacing: 17,
+                  ),
+                  itemCount: avatars.length,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          selectedAvatar = avatars[index];
+                        });
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: selectedAvatar ==avatars[index]?Color.fromRGBO(246, 189, 0, 0.56)
+                              : Colors.transparent,
+                          border: Border.all(
+                            color: Color.fromRGBO(246, 189, 0, 1),
+                            width:1,
+                          ),
+                          borderRadius: BorderRadius.circular(20),
                         ),
-                        borderRadius: BorderRadius.circular(20),
+                        child: Image.asset(avatars[index]),
                       ),
-                      child: Image.asset(avatars[index]),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
         );
       },
@@ -81,7 +83,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
         child: Column(
 
           children: [
-            SizedBox(height: 20),
+            SizedBox(height: 70),
             GestureDetector(
               onTap: () => AvatarSelection(context),
               child: CircleAvatar(
@@ -90,30 +92,37 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
               ),
             ),
             SizedBox(height: 20),
-            TextField(
-              controller: nameController,
-              decoration: InputDecoration(
-                prefixIcon: Icon(Icons.person,color: Theme.of(context).inputDecorationTheme.iconColor,),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(15),
-                )
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: TextField(
+                controller: nameController,
+                decoration: InputDecoration(
+                  prefixIcon: Icon(Icons.person,color: Theme.of(context).inputDecorationTheme.iconColor,),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  )
+                ),
               ),
             ),
             SizedBox(height: 20),
-            TextField(
-              controller: passwordController,
-              decoration: InputDecoration(
-                prefixIcon: Icon(Icons.phone,color: Theme.of(context).inputDecorationTheme.iconColor,),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: TextField(
+                controller: passwordController,
+                decoration: InputDecoration(
+                  prefixIcon: Icon(Icons.phone,color: Theme.of(context).inputDecorationTheme.iconColor,),
+                ),
               ),
             ),
             TextButton(
               onPressed: () {},
               child: Text("Reset Password",style: Theme.of(context).textTheme.bodyMedium,),
             ),
-            SizedBox(height:150),
+            Spacer(),
             ElevatedButton(
               onPressed: () {},
               style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.symmetric(horizontal: 120,vertical: 15),
                   backgroundColor: Colors.red,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15))),
@@ -123,10 +132,10 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
             ElevatedButton(
               onPressed: () {},
               style: ElevatedButton.styleFrom(
-
+                  padding: EdgeInsets.symmetric(horizontal: 120,vertical: 15),
                   backgroundColor: Theme.of(context).primaryColor,
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15))),
+                      borderRadius: BorderRadius.circular(12))),
               child: Text("Update Data",),
             )
         ]
