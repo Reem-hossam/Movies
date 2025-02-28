@@ -247,6 +247,7 @@ class LoginScreen extends StatelessWidget {
   }
 }
 
+
 signInWithGoogle() async {
   final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
   final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
