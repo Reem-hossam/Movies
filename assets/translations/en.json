@@ -1,0 +1,17 @@
+{
+  "login": "Login",
+  "email": "Email",
+  "password": "Password",
+  "forgot_password": "Forgot Password?",
+  "dont_have_account": "Don’t Have an Account?",
+  "create_one": "Create One",
+  "login_with_google": "Login With Google",
+  "register": "Register",
+  "avatar": "Avatar",
+  "name": "Name",
+  "confirm_password": "Confirm Password",
+  "phone_number": "Phone Number",
+  "create_account": "Create Account",
+  "already_have_account": "Already Have an Account?",
+  "verify_email": "Verify Email"
+}

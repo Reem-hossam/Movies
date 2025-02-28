@@ -1,5 +1,5 @@
 import 'dart:ui';
-
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,6 +18,7 @@ import 'home/tabs/profile tab/edit profile.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -29,7 +30,6 @@ void main() async {
   // Async exceptions
   PlatformDispatcher.instance.onError = (error, stack) {
     FirebaseCrashlytics.instance.recordError(error, stack);
-
     return true;
   };
   runApp(
@@ -38,13 +38,18 @@ void main() async {
         BlocProvider(create: (context) => HomeCubit()..getMoviesList()),
         ChangeNotifierProvider(create: (_) => UserProvider()),
       ],
-      child:  MyApp(),
+      child: EasyLocalization(
+        supportedLocales: [
+          const Locale('en'),
+          const Locale('ar'),
+        ],
+        path: 'assets/translations',
+        fallbackLocale: const Locale('en'),
+        child: const MyApp(),
+      ),
     ),
   );
 }
-
-
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -52,8 +57,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     Themes theme = AppTheme();
     return MaterialApp(
+        localizationsDelegates: context.localizationDelegates,
+        supportedLocales: context.supportedLocales,
+        locale: context.locale,
         debugShowCheckedModeBanner: false,
-        initialRoute: OnboardingScreen.routeName,
+        initialRoute: LoginScreen.routeName,
         theme: theme.themeData,
         routes: {
           OnboardingScreen.routeName: (context)=> OnboardingScreen(),
