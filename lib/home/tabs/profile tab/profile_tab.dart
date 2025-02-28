@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:movies_app/Login%20Screen/Login%20Screen.dart';
 import 'package:movies_app/home/tabs/profile%20tab/edit%20profile.dart';
 import 'package:movies_app/home/tabs/profile%20tab/watch%20list.dart';
 import 'package:movies_app/providers/user_provider.dart';
@@ -106,7 +107,7 @@ class _ProfileTabState extends State<ProfileTab> {
                     onPressed: () {
                       Navigator.pushNamedAndRemoveUntil(
                         context,
-                        Home.routeName,
+                        LoginScreen.routeName,
                             (route) => false,
                       );
                     },
