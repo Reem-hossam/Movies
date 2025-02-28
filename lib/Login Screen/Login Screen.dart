@@ -3,9 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:movies_app/Login%20Screen/register.dart';
+import 'package:movies_app/providers/user_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../../home/home.dart';
 
+import '../firebase/firebase_manager.dart';
 import 'forget_password.dart';
 
 
@@ -18,7 +21,7 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //var userProvider = Provider.of<UserProvider>(context);
+    var userProvider = Provider.of<UserProvider>(context);
 
     return Scaffold(
       body: SafeArea(
@@ -76,7 +79,46 @@ class LoginScreen extends StatelessWidget {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, Home.routeName);
+                    FirebaseManager.login(
+                      emailController.text,
+                      passwordController.text,
+                          () {
+                        showDialog(
+                          context: context,
+                          builder: (context) => const AlertDialog(
+                            title: Center(child: CircularProgressIndicator()),
+                            backgroundColor: Colors.transparent,
+                          ),
+                        );
+                      },
+                          () async {
+                        Navigator.pop(context);
+                        await userProvider.initUser();
+                        Navigator.pushNamedAndRemoveUntil(
+                          context,
+                          Home.routeName,
+                              (route) => false,
+                        );
+                      },
+                          (message) {
+                        Navigator.pop(context);
+                        showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (context) => AlertDialog(
+                            title: const Text("Something went Wrong"),
+                            content: Text(message),
+                            actions: [
+                              ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text("Ok"))
+                            ],
+                          ),
+                        );
+                      },
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 12),

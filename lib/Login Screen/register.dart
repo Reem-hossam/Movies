@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:easy_localization/easy_localization.dart';
+import '../firebase/firebase_manager.dart';
 import 'Login Screen.dart';
 
 
@@ -20,6 +21,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController passwordController = TextEditingController();
 
   TextEditingController rePasswordController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
 
   var formKey = GlobalKey<FormState>();
   List<String> avatars = [
@@ -132,8 +134,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         return "Email is Required";
                       }
                       final bool emailValid = RegExp(
-                          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[gmail]+\.[com]+")
+                          r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")
                           .hasMatch(value);
+
 
                       if (emailValid == false) {
                         return "Email not Valid";
@@ -161,7 +164,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     },
                     decoration: InputDecoration(
                       hintText: "Password",
-                      suffixIcon: Icon(Icons.visibility),
+                      suffixIcon: Icon(Icons.visibility_off),
                     ),
                   ),
                   SizedBox(
@@ -183,15 +186,81 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       return null;
                     },
                     decoration: InputDecoration(
-                      hintText: "RePassword",
-                      suffixIcon: Icon(Icons.visibility),
+                      hintText: "Confirm Password",
+                      suffixIcon: Icon(Icons.visibility_off_sharp),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  TextFormField(
+                    controller: phoneController,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Phone Number is Required";
+                      }
+                      final bool phoneValid = RegExp(
+                          r"^\+?[1-9]\d{1,14}$")
+                          .hasMatch(value);
+
+
+                      if (phoneValid == false) {
+                        return "phone not Valid";
+                      }
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                      hintText: "Phone Number",
+                      prefixIcon: Icon(Icons.phone),
                     ),
                   ),
                   SizedBox(
                     height: 24,
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      if (formKey.currentState!.validate()) {
+                        FirebaseManager.createAccount(
+                          nameController.text,
+                          emailController.text,
+                          passwordController.text,
+                          selectedAvatar,  // استخدام الصورة المختارة هنا
+                          phoneController.text,
+                              () {
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                title: Center(child: CircularProgressIndicator()),
+                                backgroundColor: Colors.transparent,
+                              ),
+                            );
+                          },
+                              () {
+                            Navigator.pop(context);
+                            Navigator.pop(context);
+                          },
+                              (message) {
+                            Navigator.pop(context);
+                            showDialog(
+                              context: context,
+                              barrierDismissible: false,
+                              builder: (context) => AlertDialog(
+                                title: Text("Something went Wrong"),
+                                content: Text(message),
+                                actions: [
+                                  ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text("Ok"))
+                                ],
+                              ),
+                            );
+                          },
+                        );
+
+                      }
+                    },
                     style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 12),
                         backgroundColor: Theme.of(context).primaryColor,

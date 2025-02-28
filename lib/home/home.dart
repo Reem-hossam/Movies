@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:movies_app/bloc/cubit.dart';
 import 'package:movies_app/home/tabs/browes.dart';
@@ -81,17 +80,13 @@ class _HomeState extends State<Home> {
       body: tabs[currentIndex],
     );
   }
-<<<<<<< Updated upstream
 }
-=======
-}
+
 List<Widget>tabs=[
   HomeTab(),
-  SearchTab(),
   Browse(),
-  Search(),
+  SearchTab(),
   ProfileTab(),
 
 
 ];
->>>>>>> Stashed changes

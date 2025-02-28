@@ -58,7 +58,6 @@ class _HistoryScreenState extends State<HistoryScreen> {
             return Center(child: Text("No history available"));
           }
 
-          // تحديث العداد عند تحميل البيانات بنجاح
           widget.updateHistoryCounter();
 
           return SingleChildScrollView(

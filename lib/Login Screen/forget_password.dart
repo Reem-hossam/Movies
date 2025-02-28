@@ -30,6 +30,7 @@ class ForgetPassword extends StatelessWidget {
               decoration: InputDecoration(
                 hintText: "email",
                 prefixIcon: Icon(Icons.email),
+
               ),
             ),
             SizedBox(
@@ -46,7 +47,7 @@ class ForgetPassword extends StatelessWidget {
                   style: Theme.of(context)
                       .textTheme
                       .titleMedium!
-                      .copyWith(color: Colors.white)),
+                      .copyWith(color: Colors.black)),
             ),
           ],
         ),
