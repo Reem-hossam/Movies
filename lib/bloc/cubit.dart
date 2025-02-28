@@ -5,7 +5,6 @@ import '../model/details_model.dart';
 import '../model/screenshot_model.dart';
 import '../model/similar_model.dart';
 import '../model/video_model.dart' as video;
-import '../movies_details/movies_details.dart';
 import '/bloc/state.dart';
 
 class HomeCubit extends Cubit<HomeStates> {

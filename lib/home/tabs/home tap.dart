@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/bloc/cubit.dart';
@@ -36,12 +37,28 @@ class _HomeTabState extends State<HomeTab> {
             children: [
               Expanded(
                 flex: 3,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: state.movies.length,
-                  itemBuilder: (context, index) {
-                    return MoviePoster(movie: state.movies[index]);
-                  },
+                child: Stack(
+                  children: [
+                    ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: state.movies.length,
+                      itemBuilder: (context, index) {
+                        return MoviePoster(movie: state.movies[index]);
+                      },
+                    ),
+                    Positioned(
+                      top: 10,
+                      right: 0,
+                      left: 10,
+                      child: Image.asset("assets/images/available_now.png",),
+                    ),
+                    Positioned(
+                      bottom: 10,
+                      left: 0,
+                      right: 0,
+                      child: Image.asset("assets/images/watch_now.png"),
+                    ),
+                  ],
                 ),
               ),
               Expanded(
@@ -63,4 +80,3 @@ class _HomeTabState extends State<HomeTab> {
     );
   }
 }
-
