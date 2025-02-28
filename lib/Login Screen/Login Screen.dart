@@ -212,31 +212,35 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 24),
-                ToggleSwitch(
-                  minWidth: 80,
-                  minHeight: 30,
-                  initialLabelIndex: context.locale.toString() == "en" ? 0 : 1,
-                  cornerRadius: 20.0,
-                  activeFgColor: Colors.white,
-                  inactiveFgColor: Colors.white,
-                  inactiveBgColor: Colors.transparent,
-                  totalSwitches: 2,
-                  icons: const [
-                    Icons.flag,
-                    Icons.flag_circle_outlined,
-                  ],
-                  iconSize: 24.0,
-                  activeBgColors: [
-                    [Colors.yellow, Colors.orange],
-                    [Colors.yellow, Colors.orange],
-                  ],
-                  animate: true,
-                  curve: Curves.easeInOut,
-                  borderWidth: 2,
-                  borderColor: [Colors.yellow],
-                  onToggle: (index) {
-                    context.setLocale(index == 0 ? const Locale('en') : const Locale('ar'));
-                  },
+                Padding(
+
+                  padding: EdgeInsets.only(left: 140,right:140),
+                  child: ToggleSwitch(
+                    minWidth: 80,
+                    minHeight: 30,
+                    initialLabelIndex: context.locale.toString() == "en" ? 0 : 1,
+                    cornerRadius: 20.0,
+                    activeFgColor: Colors.white,
+                    inactiveFgColor: Colors.white,
+                    inactiveBgColor: Colors.transparent,
+                    totalSwitches: 2,
+                    icons: const [
+                      Icons.flag,
+                      Icons.flag_circle_outlined,
+                    ],
+                    iconSize: 24.0,
+                    activeBgColors: [
+                      [Colors.yellow, Colors.orange],
+                      [Colors.yellow, Colors.orange],
+                    ],
+                    animate: true,
+                    curve: Curves.easeInOut,
+                    borderWidth: 2,
+                    borderColor: [Colors.yellow],
+                    onToggle: (index) {
+                      context.setLocale(index == 0 ? const Locale('en') : const Locale('ar'));
+                    },
+                  ),
                 ),
               ],
             ),
