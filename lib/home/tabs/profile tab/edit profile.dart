@@ -48,7 +48,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
       await FirebaseManager.updateUser(
         nameController.text,
         selectedAvatar,
-        phoneController.text, // ✅ تحديث رقم الهاتف في Firebase
+        phoneController.text,
       );
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Profile Updated Successfully!")),
