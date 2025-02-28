@@ -6,7 +6,6 @@ import 'package:movies_app/home/tabs/profile%20tab/watch%20list.dart';
 import 'package:movies_app/providers/user_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
-import '../../home.dart';
 import 'History screen.dart';
 
 class ProfileTab extends StatefulWidget {
@@ -24,7 +23,9 @@ class _ProfileTabState extends State<ProfileTab> {
     super.initState();
     loadWatchListCount();
     loadHistoryListCount();
+
   }
+
 
   Future<void> loadWatchListCount() async {
     final prefs = await SharedPreferences.getInstance();

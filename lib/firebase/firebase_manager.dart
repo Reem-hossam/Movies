@@ -24,8 +24,8 @@ class FirebaseManager {
       fromFirestore: (snapshot, options) {
         return UserModel.fromJson(snapshot.data()!);
       },
-      toFirestore: (task, options) {
-        return task.toJson();
+      toFirestore: (user, options) {
+        return user.toJson();
       },
     );
   }
@@ -42,6 +42,7 @@ class FirebaseManager {
     await collection.doc(FirebaseAuth.instance.currentUser!.uid).get();
     return docRef.data();
   }
+
   static Future<void> createAccount(
       String name,
       String emailAddress,
@@ -88,14 +89,12 @@ class FirebaseManager {
     }
   }
 
-
   static Future<void> login(
       String email,
       String password,
       Function onLoading,
       Function onSuccess,
-      Function onError,
-      ) async {
+      Function onError) async {
     try {
       onLoading();
 
@@ -120,14 +119,24 @@ class FirebaseManager {
       print("Error in login: $e");
     }
   }
-
-  static Future<void> updateUser(String name, String avatar) async {
+  static Future<void> updateUser(String name, String avatar, String phoneNumber) async {
     var user = FirebaseAuth.instance.currentUser;
     if (user == null) return;
 
     await FirebaseFirestore.instance.collection("Users").doc(user.uid).update({
       "name": name,
       "avatar": avatar,
+      "phoneNumber": phoneNumber,
     });
+  }
+
+
+  static Future<void> deleteUserAccount() async {
+    var user = FirebaseAuth.instance.currentUser;
+    if (user == null) return;
+
+    await FirebaseFirestore.instance.collection("Users").doc(user.uid).delete();
+
+    await user.delete();
   }
 }
