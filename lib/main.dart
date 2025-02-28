@@ -4,12 +4,15 @@ import 'package:movies_app/home/onboarding/onboarding_screen.dart';
 import 'package:movies_app/home/tabs/home%20tap.dart';
 import 'package:movies_app/theme/app%20theme.dart';
 import 'package:movies_app/theme/theme.dart';
+<<<<<<< Updated upstream
 
 import 'Login Screen/Login Screen.dart';
 import 'Login Screen/forget_password.dart';
 import 'Login Screen/register.dart';
+=======
+import 'package:movies_app/theme/theme.dart';
+>>>>>>> Stashed changes
 import 'bloc/cubit.dart';
-
 import 'home/home.dart';
 import 'home/tabs/profile tab/edit profile.dart';
 
@@ -17,14 +20,12 @@ void main() {
   runApp(
     MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => HomeCubit()..getMoviesList()),
+        BlocProvider(create: (context) => HomeCubit()..getMoviesList("Action")),
       ],
       child:  MyApp(),
     ),
   );
 }
-
-
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

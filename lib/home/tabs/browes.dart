@@ -34,13 +34,22 @@ class _BrowseState extends State<Browse> {
 
     return Scaffold(
       backgroundColor: Colors.black,
+<<<<<<< Updated upstream
+=======
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+      ),
+>>>>>>> Stashed changes
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             height: 40,
             padding: EdgeInsets.symmetric(horizontal: 8),
+<<<<<<< Updated upstream
             margin: EdgeInsets.only(top: 30),
+=======
+>>>>>>> Stashed changes
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
               separatorBuilder: (context, index) => SizedBox(width: 8),

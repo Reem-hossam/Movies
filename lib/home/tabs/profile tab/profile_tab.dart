@@ -10,10 +10,18 @@ class ProfileTab extends StatefulWidget {
   _ProfileTabState createState() => _ProfileTabState();
 }
 
+<<<<<<< Updated upstream
 class _ProfileTabState extends State<ProfileTab> {
   String selectedAvatar = "assets/images/avatar1.png";
   int historyCounter = 0;
   int watchlistCounter = 0;
+=======
+import '../../../login screen.dart';
+import '../../home.dart';
+import 'History.dart';
+import 'edit profile.dart';
+import 'watch list.dart';
+>>>>>>> Stashed changes
 
   @override
   void initState() {
@@ -46,6 +54,7 @@ class _ProfileTabState extends State<ProfileTab> {
       child: Scaffold(
         appBar: AppBar(
           centerTitle: false,
+<<<<<<< Updated upstream
           backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
           toolbarHeight: 300,
           title: Column(
@@ -117,6 +126,68 @@ class _ProfileTabState extends State<ProfileTab> {
           ),
           bottom: TabBar(
             labelColor: Colors.white,
+=======
+            backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+            toolbarHeight: 300,
+      title: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            CircleAvatar(
+              radius: 50,
+              backgroundImage: AssetImage(selectedAvatar),
+            ),
+
+                Text("Wish List"),
+                Text("History"),
+          ],
+        ),
+        SizedBox(height: 15,),
+        Text(
+         // userProvider.userModel?.name ?? "null",
+        "reem",
+      textAlign: TextAlign.start,
+      ),
+        SizedBox(
+      height: 23,
+      ),
+       Row(
+         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+          ElevatedButton(onPressed: (){
+            Navigator.pushNamed(context, UpdateProfileScreen.routeName);
+          },style:ElevatedButton.styleFrom(
+            backgroundColor: Theme.of(context).primaryColor,
+            foregroundColor: Colors.black,
+          ) ,
+              child: Text("Edit Profile"),
+          ) ,
+        ElevatedButton(onPressed: (){
+            Navigator.pushNamedAndRemoveUntil(
+                context,
+              LoginScreen.routeName,
+                (route)=>false,
+            );
+          },
+          style: ElevatedButton.styleFrom(
+              backgroundColor:Color.fromRGBO(232, 38, 38, 1)
+          ),
+              child: Text("Exit",style:Theme.of(context).textTheme.bodyLarge!.copyWith(
+                  color: Colors.white
+                ),
+              ),),
+        ],
+       )
+
+      ],
+      ),
+        bottom:
+        TabBar(
+         dividerColor: Colors.transparent,
+          labelColor:Colors.white,
+>>>>>>> Stashed changes
             indicatorColor: Theme.of(context).primaryColor,
             tabs: [
               Tab(

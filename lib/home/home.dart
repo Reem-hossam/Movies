@@ -81,4 +81,17 @@ class _HomeState extends State<Home> {
       body: tabs[currentIndex],
     );
   }
+<<<<<<< Updated upstream
 }
+=======
+}
+List<Widget>tabs=[
+  HomeTab(),
+  SearchTab(),
+  Browse(),
+  Search(),
+  ProfileTab(),
+
+
+];
+>>>>>>> Stashed changes

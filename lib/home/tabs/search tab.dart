@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+<<<<<<< Updated upstream
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/bloc/cubit.dart';
 import 'package:movies_app/model/details_model.dart';
@@ -6,42 +7,21 @@ import 'package:movies_app/model/details_model.dart';
 
 class SearchTab extends StatefulWidget {
   const SearchTab({super.key});
+=======
+
+class Search extends StatefulWidget {
+  const Search({super.key});
+>>>>>>> Stashed changes
 
   @override
-  _SearchTabState createState() => _SearchTabState();
+  State<Search> createState() => _SearchState();
 }
 
-class _SearchTabState extends State<SearchTab> {
-  TextEditingController searchController = TextEditingController();
-  bool isSearching = false;
-  List<MoviesResponse> filteredMovies = [];
-
-  @override
-  void initState() {
-    super.initState();
-    searchController.addListener(() {
-      filterMovies();
-    });
-  }
-
-  void filterMovies() {
-    final query = searchController.text.toLowerCase();
-    final homeCubit = BlocProvider.of<HomeCubit>(context);
-
-    if (homeCubit.moviesList != null) {
-      setState(() {
-        isSearching = query.isNotEmpty;
-        filteredMovies = homeCubit.moviesList!
-            .where((movie) => movie.title!.toLowerCase().contains(query))
-            .toList();
-      });
-    }
-  }
-
-
+class _SearchState extends State<Search> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+<<<<<<< Updated upstream
         backgroundColor: const Color(0xff121312),
         body: Column(
           children: [
@@ -141,3 +121,8 @@ class _SearchTabState extends State<SearchTab> {
 
 
   }}
+=======
+    );
+  }
+}
+>>>>>>> Stashed changes
