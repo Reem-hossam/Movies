@@ -20,12 +20,13 @@ class UserProvider extends ChangeNotifier {
     userModel = await FirebaseManager.readUser();
     notifyListeners();
   }
-  Future<void> updateUser(String name, String avatar) async {
+  Future<void> updateUser(String name, String avatar,phoneNumber) async {
     if (firebaseUser == null)
       return;
-    await FirebaseManager.updateUser(name, avatar);
+    await FirebaseManager.updateUser(name, avatar, phoneNumber);
     userModel?.name = name;
     userModel?.avatar = avatar;
+    userModel?.phoneNumber = phoneNumber;
     notifyListeners();
   }
 }
